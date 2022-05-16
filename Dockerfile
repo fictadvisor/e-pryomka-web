@@ -6,6 +6,6 @@ COPY . /app
 
 RUN npm install
 
-RUN npm build
+RUN npm run-script build
 
 ENTRYPOINT npm start
