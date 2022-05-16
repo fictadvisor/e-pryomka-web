@@ -5,7 +5,8 @@ export default function WorkInProgress() {
     return (
       <>
         <PageLayout
-          meta={{ title: 'Work in progress…' }}>
+          meta={{ title: 'Work in progress…' }}
+          header={false}>
           {WIP()}
         </PageLayout>
       </>

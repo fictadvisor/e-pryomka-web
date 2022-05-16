@@ -1,0 +1,29 @@
+.buttonPrimary {
+    background: var(--secondary);
+    width: 100%;
+    border-radius: 8px;
+    color: var(--primary-text-color);
+    padding: 13px 24px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.buttonPrimary:hover:not(:disabled):not(.no-hover), .buttonPrimary:active:not(.no-hover), .buttonPrimary.active {
+    background-color: var(--secondary-accent);
+}
+
+.buttonPrimary:disabled {
+    background-color: #323d4d;
+    color: #5d7290;
+    cursor: not-allowed;
+}
+
+.error {
+    max-width: 100%;
+    color: var(--accent-text-color);
+    text-align: center;
+    padding: 11px 17px;
+    border: 1px dashed var(--destructive-action-background-color);
+    border-radius: 8px;
+}

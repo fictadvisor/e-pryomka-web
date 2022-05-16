@@ -1,0 +1,26 @@
+.contact {
+    margin-top: 5px;
+}
+
+.contact a {
+    display: inline-flex;
+}
+
+.contact p {
+    margin-left: 5px;
+}
+
+.contact img {
+    border-radius: 8px;
+}
+
+.contactsHeader {
+    margin-top: 15px;
+    margin-bottom: 7px;
+}
+
+.contactContainer {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

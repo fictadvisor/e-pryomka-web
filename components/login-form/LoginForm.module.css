@@ -1,0 +1,18 @@
+.login {
+    padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login * {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    width: 250px;
+    max-width: 286px;
+}
+
+.login button {
+    width: 286px;
+}

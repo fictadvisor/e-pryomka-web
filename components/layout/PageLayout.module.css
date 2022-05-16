@@ -1,0 +1,31 @@
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding-bottom: 50px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.footer {
+    font-weight: bold;
+    padding: 2rem;
+    border-top: 2px solid var(--background-color-accent);
+}
+
+.header {
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.header img {
+    max-width: 250px;
+}
+
+.header h1 {
+    display: inline-block;
+    margin-left: 2rem;
+}
