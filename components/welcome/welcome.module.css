@@ -1,0 +1,82 @@
+.welcomeTitle {
+    font-size: 7em;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.welcomeContent {
+    padding: 1em;
+}
+
+.welcomeContent ::selection {
+    background: var(--accent-text-color);
+    color: var(--primary-text-color);
+}
+
+.welcomeContent ::-moz-selection {
+    background: var(--accent-text-color);
+    color: var(--primary-text-color);
+}
+
+.welcomeHeader {
+    width: fit-content;
+    text-align: center;
+}
+
+.welcomeHeader h1 {
+    color: var(--accent-text-color);
+    padding: 0;
+    margin: 0;
+}
+
+.welcomeHeader h2 {
+    color: var(--primary-text-color);
+    padding: 0;
+    margin: 0;
+}
+
+.welcomeDesc {
+    text-align: center;
+    font-size: large;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50%;
+    font-weight: bold;
+}
+
+.welcomeDesc ul {
+    text-align: start;
+    list-style: none;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3rem;
+}
+
+.welcomeDesc li {
+    margin-top: 1rem;
+    text-indent: -.7em;
+}
+
+.welcomeDesc li::before {
+    content: "• ";
+    color: var(--accent-text-color);
+}
+
+.loginTelegram {
+    margin-top: 5rem;
+}
+
+@media (max-width: 600px) {
+    .welcomeDesc {
+        max-width: 100%;
+    }
+
+    .welcomeDesc ul {
+        max-width: 100%;
+    }
+
+    .welcomeContent {
+        padding: 15px;
+    }
+}

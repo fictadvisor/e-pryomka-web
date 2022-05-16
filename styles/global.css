@@ -1,0 +1,40 @@
+:root {
+    --content-width: 840px;
+    --side-block-width: calc((100vw - var(--content-width)) / 2);
+    --background-color: #0B0E11;
+    --primary-text-color: #DFE3E9;
+    --secondary-text-color: #5D7290;
+    --accent-text-color: #FD4D4D;
+    --destructive-action-background-color: #ff3131;
+    --destructive-action-background-color-variant: #de2c2c;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    font-size: 14px;
+    height: 100%;
+}
+
+* {
+    font-family: Roboto, sans-serif;
+}
+
+input, button, textarea, select {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    padding: 0;
+    margin: 0;
+}
