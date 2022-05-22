@@ -4,7 +4,7 @@ import PageHeader from "./PageHeader";
 import styles from './PageLayout.module.css';
 import Footer from "./Footer";
 
-export default function PageLayout({ meta, title, header = true, children }) {
+export default function PageLayout({ meta, title, header = true, logout = false, children }) {
   const metaTitle = meta.title ?? title
 
   return (
@@ -23,7 +23,7 @@ export default function PageLayout({ meta, title, header = true, children }) {
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
       </Head>
       <header className={styles.header}>
-        { header && <PageHeader title={title ?? meta.title}/> }
+        { header && <PageHeader title={title ?? meta.title} showLogout={logout}/> }
       </header>
       <div className={styles.content}>{children}</div>
       <footer className={styles.footer}>

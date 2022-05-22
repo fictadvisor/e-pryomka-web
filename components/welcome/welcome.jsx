@@ -2,26 +2,20 @@ import styles from './welcome.module.css';
 import LoginTelegram from "../login-telegram/login-telegram";
 import PageLayout from "../layout/PageLayout";
 import Script from "next/script";
-import config from "../../config";
-
-const openAuthenticationDialog = () => new Promise((resolve, reject) => {
-  try {
-    const Telegram = window.Telegram;
-    Telegram.Login.auth(
-      { bot_id: config.botId, request_access: true },
-      (data) => {
-        return data ? resolve(data) : reject(new Error('Failed to authenticate'));
-      }
-    )
-  } catch (e) {
-    reject(e);
-  }
-});
+import { useAuthentication } from "../../lib/context/AuthenticationContext";
+import { useRouter } from "next/router";
 
 export default function Welcome() {
+  const authentication = useAuthentication();
+  const router = useRouter();
+
+  const onLogin = () => router.push('/dashboard');
+
   const login = e => {
     e.preventDefault()
-    openAuthenticationDialog()
+    authentication.telegramLogin()
+      .then(onLogin)
+      .catch(e => alert(e.message));
   }
 
   return (

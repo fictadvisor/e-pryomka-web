@@ -7,6 +7,10 @@ export default function Login() {
   const authentication = useAuthentication();
   const router = useRouter()
 
+  if (process.browser && authentication.getUser() != null) {
+    router.push('/dashboard');
+  }
+
   return (
     <PageLayout
       meta={{ title: "Увійти до системи" }}>

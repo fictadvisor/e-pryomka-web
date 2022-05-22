@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+}
+
+.header h1 {
+    flex: 1;
+}
+
+.headerLogo {
+    height: fit-content;
+    width: fit-content;
+    margin-top: auto;
+    margin-bottom: auto;
+}

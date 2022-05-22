@@ -1,37 +1,76 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import oauth from "../auth";
 import api  from "../api";
-import { useRouter } from "next/router";
+import { atom, useRecoilState } from "recoil";
+import config from "../../config";
 
 export const AuthenticationContext = React.createContext(null);
 
+export const userState = atom({
+  key: 'userState',
+  default: oauth.getUser(),
+})
+
+const openAuthenticationDialog = () => new Promise((resolve, reject) => {
+  try {
+    const Telegram = window.Telegram;
+    Telegram.Login.auth(
+      { bot_id: config.botId, request_access: true },
+      (data) => {
+        return data ? resolve(data) : reject(new Error('Failed to authenticate'));
+      }
+    )
+  } catch (e) {
+    reject(e);
+  }
+});
+
 export const AuthenticationProvider = ({ children }) => {
   const [jwt, setJwt] = useState(oauth.getToken());
+  const [user, setUser] = useRecoilState(userState);
 
-  const { error, isFetching } = useQuery(
-    ['oauth', jwt?.accessToken, jwt?.refreshToken],
-    () => api.oauth.getMe(jwt?.accessToken),
-    { keepPreviousData: false, enabled: jwt !== null, retry: false }
+  const { error, isFetching, data } = useQuery(
+    ['oauth', jwt?.access, jwt?.refresh],
+    () => api.oauth.getMe(jwt?.access),
+    {
+      keepPreviousData: false,
+      enabled: jwt != null,
+      retry: false,
+      refetchInterval: 60_000,
+    }
   );
 
   if (error && !isFetching) {
     const status = error.response?.status;
 
     if (jwt && status === 401 || status === 403) {
-      oauth.refresh(setJwt)
+      api.oauth.refresh(jwt.refresh)
         .catch(e => {
           if (e.response?.status !== 500) {
+            setJwt(null);
+            setUser(null);
             oauth.logout();
           }
         })
     } else {
+      setJwt(null);
+      setUser(null);
       oauth.logout();
     }
   }
 
+  useEffect(() => {
+    if (!error && !isFetching) {
+      oauth.saveUser(data);
+      setUser(data);
+    }
+  }, [])
+
   const context = {
-    update: (token) => setJwt(token),
+    getUser: () => user,
+    updateUser: (user) => setUser(user),
+    updateToken: (token) => setJwt(token),
   };
 
   return (
@@ -41,29 +80,41 @@ export const AuthenticationProvider = ({ children }) => {
   );
 };
 
-// const loginUrl = `https://t.me/${config.contacts.bot}?start=login`;
-const logoutUrl = '/oauth?logout=true'
-
 export const useAuthentication = () => {
-  const router = useRouter();
+  const { getUser, updateUser: _updateUser, updateToken: _updateToken } = useContext(AuthenticationContext);
 
-  const logout = () => router.push(logoutUrl);
-  const getToken = () => oauth.getToken()?.accessToken;
-  const getUser = () => oauth.getUser();
-  const { update: _update } = useContext(AuthenticationContext);
-  const update = () => _update(oauth.getToken());
-  const login = async (login, password) => {
-    await oauth.login(login, password);
-    update();
+  const update = async (jwt) => {
+    if (!jwt.access) throw new Error('Failed to authenticate user');
+
+    const user = await api.oauth.getMe(jwt.access);
+    if (!user) throw new Error("failed to fetch user");
+
+    _updateUser(user);
+    oauth.saveUser(user);
+    _updateToken(jwt);
+    oauth.saveToken(jwt);
+  }
+
+  const logout = async () => {
+    await api.oauth.logout(getToken());
+    oauth.logout();
+    _updateToken(null);
+    _updateUser(null);
+  }
+
+  const getToken = () => oauth.getToken()?.access;
+  const login = async (login, password) => update(await api.oauth.login(login, password));
+
+  const telegramLogin = async () => {
+    const telegramData = await openAuthenticationDialog();
+    await update(await api.oauth.exchange(telegramData));
   }
 
   return {
     getUser,
-    update,
     getToken,
-    // loginUrl,
-    logoutUrl,
     login,
+    telegramLogin,
     logout,
   };
 };

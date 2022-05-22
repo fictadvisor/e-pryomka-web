@@ -27,3 +27,29 @@
     border: 1px dashed var(--destructive-action-background-color);
     border-radius: 8px;
 }
+
+.buttonPrimaryIcon {
+    background: var(--secondary);
+    width: 50px;
+    height: 40px;
+    border-radius: 8px;
+    padding: 13px 24px 15px;
+    color: var(--primary-text-color);
+    cursor: pointer;
+}
+
+.buttonPrimaryIcon svg {
+    width: 18px;
+    height: 18px;
+    margin: -2px -8px 0;
+}
+
+.buttonPrimaryIcon:hover:not(:disabled):not(.no-hover), .buttonPrimary:active:not(.no-hover), .buttonPrimary.active {
+    background-color: var(--secondary-accent);
+}
+
+.buttonPrimaryIcon:disabled {
+    background-color: #323d4d;
+    color: #5d7290;
+    cursor: not-allowed;
+}
